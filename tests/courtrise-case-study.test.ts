@@ -11,7 +11,7 @@ const section = (id: string) => sections().find((s) => s.id === id)!;
 const allText = () => JSON.stringify(project().content);
 
 test("CourtRise has one record, an official App Store link and a published status", () => {
-  assert.equal(registry.all.filter((p) => /courtrise/i.test(p.title)).length, 1);
+  assert.equal(registry.all.filter((p) => /^courtrise$/i.test(p.title)).length, 1);
   assert.equal(curatedContent.filter((c) => c.projectId === "courtrise").length, 1);
   const d = getProjectDetail(project());
   const store = d.links.find((l) => l.kind === "appStore");

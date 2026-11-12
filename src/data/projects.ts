@@ -49,6 +49,54 @@ export const projects: readonly PortfolioProject[] = [
     categories: ["game-development", "ios-development", "android-development"],
   },
   {
+    id: "readpoint",
+    slug: "readpoint",
+    title: "ReadPoint",
+    shortDescription:
+      "ReadPoint is a speed-reading iOS app published on the App Store. It shows text one word at a time at a fixed focus point and highlights the centre letter of every word in red.",
+    categories: ["ios-development"],
+  },
+  {
+    id: "chickenflip",
+    slug: "chickenflip",
+    title: "ChickenFlip",
+    shortDescription:
+      "An endless arcade game about a chicken on a skateboard: procedurally generated ramps, 360° flips, eggs for fuel and daily challenges. Built for iOS with SwiftUI and SpriteKit and ported to Android with Kotlin and libGDX.",
+    categories: ["game-development", "ios-development", "android-development"],
+  },
+  {
+    id: "courtrise-web",
+    slug: "courtrise-web",
+    title: "CourtRise Web",
+    shortDescription:
+      "The website for the CourtRise app: a Next.js site with a landing page, features, about, privacy, terms, support and account-deletion pages.",
+    categories: ["web-development"],
+  },
+  {
+    id: "bugunluk-web",
+    slug: "bugunluk-web",
+    title: "BuGunluk Web",
+    shortDescription:
+      "A web employer portal prototype for BuGunluk, built with Next.js and Firebase. It reuses the mobile app's Firestore data model for jobs, applications and messages.",
+    categories: ["web-development"],
+  },
+  {
+    id: "parsing-face-color",
+    slug: "parsing-face-color",
+    title: "ParsingFaceColor",
+    shortDescription:
+      "A Python experiment that splits a face photo into regions (skin, hair, eyebrows, eyes and lips) with a face-parsing model, then calculates each region's average colour and names it.",
+    categories: ["artificial-intelligence"],
+  },
+  {
+    id: "pos-tracking-system",
+    slug: "pos-tracking-system",
+    title: "POS Tracking System",
+    shortDescription:
+      "A dashboard and API for tracking customers, their POS devices, sales and billing, with an Express and Prisma backend and a single-page web frontend.",
+    categories: ["web-development", "backend-development"],
+  },
+  {
     id: "macos-portfolio",
     slug: "macos-portfolio",
     title: "macOS Portfolio",

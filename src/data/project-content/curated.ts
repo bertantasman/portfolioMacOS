@@ -868,6 +868,238 @@ export const curatedContent: readonly ProjectContent[] = [
     },
   },
 
+  // ── More projects (added 2026-11-12). Written from each project's own README or documentation, its file structure and
+  // dependencies, and for ReadPoint the public App Store listing. Source repositories are private, so no repository links
+  // are published, and nothing here states downloads, ratings, revenue or results. See docs/ADDITIONAL_PROJECTS.md.
+  {
+    projectId: "readpoint",
+    tagline:
+      "ReadPoint is a speed-reading iOS app published on the App Store. It shows text one word at a time at a fixed focus point and highlights the centre letter of every word in red.",
+    overview:
+      "ReadPoint helps people read faster and stay focused. Instead of moving their eyes across a line, the reader watches one word at a time in the same place, with the centre letter of each word in red, which reduces eye movement.\n\nThe App Store listing describes a minimal interface that avoids distraction, a design aimed at increasing reading speed, and support for Turkish content. The project's own documentation also describes importing PDF and EPUB books, adjustable reading speed, chapter progress and three themes; the exact feature set of the published version was not compared with it.",
+    features: [
+      { id: "focus", title: "Focus letter", description: "The centre letter of each word is highlighted in red.", icon: "zap" },
+      { id: "minimal", title: "Minimal interface", description: "A calm layout that does not distract from reading.", icon: "layout" },
+      { id: "speed", title: "Reading speed", description: "The pace is adjustable in words per minute (documented in the project).", icon: "settings" },
+      { id: "books", title: "PDF and EPUB books", description: "Books can be imported and read word by word, with chapter progress for EPUB (documented in the project).", icon: "check" },
+      { id: "themes", title: "Light, Dark and Sepia themes", description: "Three reading themes (documented in the project).", icon: "layout" },
+      { id: "turkish", title: "Turkish content", description: "The listing states support for Turkish text.", icon: "globe" },
+    ],
+    technologies: [
+      { name: "Swift", category: "mobile" },
+      { name: "SwiftUI", category: "mobile" },
+      { name: "Combine", category: "mobile" },
+      { name: "MVVM", category: "mobile" },
+      { name: "ZIPFoundation", category: "tools" },
+    ],
+    technicalDetails: [
+      { title: "Architecture", body: "The project uses MVVM: SwiftUI views, observable view models, services for storage and file parsing, and plain models. Reading progress and settings are stored on the device." },
+      { title: "EPUB and PDF processing", body: "An EPUB is opened as a ZIP archive and its OPF manifest and spine are parsed with XMLParser. Chapters come from the navigation document, with a fallback to the spine, and DRM-protected files are detected. PDF text is extracted separately and both are normalised into a word list." },
+    ],
+    outcomes: [
+      { label: "Published on the App Store", description: "Free on the App Store. No downloads, ratings or revenue are stated here." },
+    ],
+    links: { appStore: "https://apps.apple.com/tr/app/readpoint/id6758308888" },
+    developmentStatus: "published",
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Platform", value: "iOS" },
+        { label: "Status", value: "Published on the App Store" },
+        { label: "Built with", value: "Swift, SwiftUI" },
+        { label: "Category", value: "Books, free" },
+      ],
+    },
+  },
+  {
+    projectId: "chickenflip",
+    tagline:
+      "An endless arcade game about a chicken on a skateboard: procedurally generated ramps, 360° flips, eggs for fuel and daily challenges. Built for iOS with SwiftUI and SpriteKit and ported to Android with Kotlin and libGDX.",
+    overview:
+      "You control a chicken on a skateboard rolling across an endless world of bowl-shaped ramps. Collect eggs to keep the fuel tank from running out, pull off 360° flips in the air for bonus points, and avoid crashes, obstacles and water gaps. The run ends when the fuel hits zero or the chicken crashes.\n\nThe iOS game uses SpriteKit physics; the Android port runs on the libGDX framework with the Box2D physics engine and a Jetpack Compose interface.",
+    features: [
+      { id: "terrain", title: "Endless procedural terrain", description: "The world is generated in chunks, joined smoothly one after another.", icon: "map-pin" },
+      { id: "flips", title: "360° flips", description: "A full rotation in the air that ends in a clean landing earns bonus points.", icon: "zap" },
+      { id: "fuel", title: "Fuel and eggs", description: "Eggs refill the fuel tank. The run ends when it is empty.", icon: "check" },
+      { id: "gates", title: "Boost gates and water gaps", description: "Boost gates appear after 1,000 points and water gaps after 4,000, with warning signs before each gap.", icon: "shield" },
+      { id: "daily", title: "Daily challenges and power-ups", description: "Three daily challenges and power-ups chosen before a run.", icon: "calendar" },
+      { id: "custom", title: "Customization", description: "Thirty colours for the chicken, unlocked with the eggs you collect.", icon: "layout" },
+    ],
+    technologies: [
+      { name: "Swift", category: "mobile" },
+      { name: "SwiftUI", category: "mobile" },
+      { name: "SpriteKit", category: "mobile" },
+      { name: "Kotlin", category: "mobile" },
+      { name: "libGDX", category: "mobile" },
+      { name: "Box2D", category: "mobile" },
+      { name: "Jetpack Compose", category: "mobile" },
+      { name: "Game Physics" },
+      { name: "Procedural Generation" },
+    ],
+    technicalDetails: [
+      { title: "iOS architecture", body: "SwiftUI hosts a SpriteKit scene. Dedicated nodes draw the chicken, terrain, eggs, obstacles and effects, and separate systems handle scoring, world progression, daily challenges, power-ups, saving, audio and haptics, and the tuning constants." },
+      { title: "Android port", body: "The Android project is written in Kotlin on libGDX with Box2D. Its core game code is split into terrain generation, physics, player control and a fixed-step update loop, with unit tests for scoring, world progression, game state and terrain spawning. Its README says the home-screen panels mirror iOS; feature parity was not independently verified." },
+    ],
+    outcomes: [
+      { label: "Playable prototype", description: "A game under development. It has no store listing, and no downloads, ratings or revenue are claimed." },
+    ],
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Type", value: "Endless arcade game" },
+        { label: "Platforms", value: "iOS and Android" },
+        { label: "iOS", value: "Swift, SwiftUI, SpriteKit" },
+        { label: "Android", value: "Kotlin, libGDX, Jetpack Compose" },
+        { label: "Status", value: "Prototype, in development" },
+      ],
+    },
+  },
+  {
+    projectId: "courtrise-web",
+    tagline:
+      "The website for the CourtRise app: a Next.js site with a landing page, features, about, privacy, terms, support and account-deletion pages.",
+    overview:
+      "CourtRise Web is the public website of the CourtRise basketball training app. It presents the app and links to its App Store page, and it holds the pages an app needs around it: a privacy policy, terms of use, a support page and instructions for deleting an account.\n\nThe site is live, and it is the developer website named on CourtRise's App Store listing.",
+    features: [
+      { id: "landing", title: "Landing and features pages", description: "A marketing page and a features page presenting the app, with an App Store button.", icon: "globe" },
+      { id: "legal", title: "Legal and support pages", description: "Privacy, terms, support and delete-account pages.", icon: "shield" },
+      { id: "faq", title: "FAQ", description: "An accordion of common questions.", icon: "search" },
+      { id: "motion", title: "Subtle motion", description: "Content appears on scroll with short animations.", icon: "zap" },
+    ],
+    technologies: [
+      { name: "Next.js", category: "frontend" },
+      { name: "React", category: "frontend" },
+      { name: "TypeScript", category: "frontend" },
+      { name: "Tailwind CSS", category: "frontend" },
+      { name: "Framer Motion", category: "frontend" },
+      { name: "Lucide", category: "frontend" },
+      { name: "Vercel", category: "infrastructure" },
+    ],
+    technicalDetails: [
+      { title: "Structure", body: "Seven routes in the Next.js App Router (home, features, about, privacy, support, terms, delete account), built from a small set of reusable components such as the navbar, footer, feature cards, an FAQ accordion, a legal-page layout and an App Store badge. Text content lives in one content file." },
+    ],
+    outcomes: [
+      { label: "Live website", description: "Deployed on Vercel. The privacy and terms texts are the site's own wording, not legal advice." },
+    ],
+    links: { liveDemo: "https://court-rise-web.vercel.app/" },
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Type", value: "Marketing and legal website" },
+        { label: "For", value: "CourtRise" },
+        { label: "Built with", value: "Next.js, TypeScript, Tailwind CSS" },
+        { label: "Status", value: "Live" },
+      ],
+    },
+  },
+  {
+    projectId: "bugunluk-web",
+    tagline:
+      "A web employer portal prototype for BuGunluk, built with Next.js and Firebase. It reuses the mobile app's Firestore data model for jobs, applications and messages.",
+    overview:
+      "BuGunluk Web explores a browser version of the employer side of BuGunluk: logging in, a dashboard of the employer's job posts, a company profile, and (as static page designs) applications, job creation and messages. It reads and writes the same Firestore collections as the iOS app, so the two stay compatible.\n\nThe project's notes describe the login, route guards, dashboard and profile as connected to Firebase; the other screens exist as HTML designs. The portal's documentation uses the app's earlier working name, JobLink.",
+    features: [
+      { id: "auth", title: "Employer login", description: "Firebase Authentication, with a guard that keeps non-employers out of the portal.", icon: "lock" },
+      { id: "dashboard", title: "Dashboard", description: "The employer's job posts, loaded from Firestore.", icon: "layout" },
+      { id: "profile", title: "Company profile", description: "A profile screen that reads and writes Firestore.", icon: "users" },
+      { id: "designs", title: "Page designs", description: "HTML designs for applications, jobs, creating a job and messages, with reusable components.", icon: "smartphone" },
+    ],
+    technologies: [
+      { name: "Next.js", category: "frontend" },
+      { name: "React", category: "frontend" },
+      { name: "TypeScript", category: "frontend" },
+      { name: "Tailwind CSS", category: "frontend" },
+      { name: "Firebase Authentication", category: "backend" },
+      { name: "Cloud Firestore", category: "backend" },
+    ],
+    technicalDetails: [
+      { title: "Data layer", body: "Repositories wrap Firestore for jobs, applications, chats and users, including real-time listeners for chats and messages, on top of TypeScript models that follow the iOS schema. The notes also list the composite Firestore indexes the queries need." },
+      { title: "Responsive design", body: "A written checklist fixes breakpoints and layout rules for the employer portal, with a mobile drawer navigation." },
+    ],
+    outcomes: [
+      { label: "Prototype", description: "One development period, not released. It is the web companion to a project that is itself in development." },
+    ],
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Type", value: "Web employer portal prototype" },
+        { label: "For", value: "BuGunluk" },
+        { label: "Built with", value: "Next.js, TypeScript, Firebase" },
+        { label: "Status", value: "Prototype" },
+      ],
+    },
+  },
+  {
+    projectId: "parsing-face-color",
+    tagline:
+      "A Python experiment that splits a face photo into regions (skin, hair, eyebrows, eyes and lips) with a face-parsing model, then calculates each region's average colour and names it.",
+    overview:
+      "ParsingFaceColor is a small computer-vision pipeline. A face-parsing neural network labels every pixel of a photo as skin, hair, eyebrows, eyes or lips (upper and lower separately). The program then averages the colour of each region and matches it to a colour name.\n\nThe repository holds the scripts, the model code and a list of named colours; it does not contain photos.",
+    features: [
+      { id: "parse", title: "Face region parsing", description: "A BiSeNet face-parsing model separates skin, hair, eyebrows, eyes and lips.", icon: "search" },
+      { id: "avg", title: "Average colour per region", description: "Pixel-wise averaging over each region.", icon: "layout" },
+      { id: "names", title: "Colour naming", description: "A rule-based name and a match against a list of 865 named colours, each with a primary-colour class.", icon: "check" },
+      { id: "viewer", title: "Colour viewer", description: "A script for viewing and comparing colours manually.", icon: "layout" },
+    ],
+    technologies: [
+      { name: "Python" },
+      { name: "PyTorch" },
+      { name: "BiSeNet" },
+      { name: "OpenCV" },
+      { name: "NumPy" },
+    ],
+    technicalDetails: [
+      { title: "Pipeline", body: "A main script runs two steps: region segmentation writes one image per region, then the colour step averages each region's pixels. The model is loaded from pre-trained weights and run on the CPU." },
+    ],
+    outcomes: [
+      { label: "Experiment", description: "A personal experiment, not a product. No accuracy results are claimed." },
+    ],
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Type", value: "Computer-vision experiment" },
+        { label: "Built with", value: "Python, PyTorch, OpenCV" },
+        { label: "Status", value: "Prototype" },
+      ],
+    },
+  },
+  {
+    projectId: "pos-tracking-system",
+    tagline:
+      "A dashboard and API for tracking customers, their POS devices, sales and billing, with an Express and Prisma backend and a single-page web frontend.",
+    overview:
+      "The POS Tracking System keeps customers, the POS devices assigned to them, sales and invoices in one place. A single-page dashboard lets an operator add and edit customers, register devices with a serial number, status and monthly fee, record sales, and look at billing and reports.\n\nThe backend is a TypeScript API with a relational data model. It is an early prototype: the API has no login route yet.",
+    features: [
+      { id: "customers", title: "Customers", description: "List, create, view and edit customers with contact and tax details.", icon: "users" },
+      { id: "devices", title: "Devices", description: "Devices with a serial number, status, service start date and monthly fee.", icon: "smartphone" },
+      { id: "sales", title: "Sales", description: "Sales with a date, unit price, quantity, VAT flag and total.", icon: "check" },
+      { id: "billing", title: "Billing and reports", description: "Invoices with a status, and summary reports.", icon: "layout" },
+    ],
+    technologies: [
+      { name: "TypeScript", category: "backend" },
+      { name: "Express", category: "backend" },
+      { name: "Prisma", category: "backend" },
+      { name: "Zod", category: "backend" },
+      { name: "HTML" },
+      { name: "JavaScript" },
+    ],
+    technicalDetails: [
+      { title: "API", body: "An Express 5 and TypeScript API with routes for customers, devices, sales, billing and reports, request validation with Zod, Helmet security headers, CORS, request logging and a health check." },
+      { title: "Data model", body: "Prisma models for users, customers, devices, sales and invoices, with relations between them and a migration. The README describes a PostgreSQL setup." },
+    ],
+    outcomes: [
+      { label: "Prototype", description: "An early prototype. Authentication is not wired into the API yet." },
+    ],
+    caseStudy: {
+      summary: [
+        { label: "Role", value: "Developer" },
+        { label: "Type", value: "Dashboard and API" },
+        { label: "Built with", value: "TypeScript, Express, Prisma" },
+        { label: "Status", value: "Prototype" },
+      ],
+    },
+  },
+
   // ── GitHub-backed projects. Keys are numeric repository ids, so renames never break them. ──
   // Written from each repository's README, structure and source code; see data/project-content/analysis.ts
   // for the evidence behind every entry and docs/GITHUB_PROJECT_ANALYSIS.md for the full audit.

@@ -32,7 +32,7 @@ test("the text comes from the profile and adds nothing to it", () => {
   const edu = files("education").find((f) => /Ca' Foscari/.test(f.name))!;
     assert.match(edu.textContent!, /- System Security and Cryptography/);
   const skills = files("skills").find((f) => f.name === "Programming Languages")!;
-  assert.equal(skills.textContent, "Programming Languages:\n  Swift, Java, Python");
+  assert.equal(skills.textContent, `Programming Languages:\n  ${profile.skillGroups[0].skills.join(", ")}`);
   assert.equal(files("experience").length, profile.experience.length);
   assert.equal(files("education").length, profile.education.length);
   assert.equal(files("skills").length, profile.skillGroups.length);

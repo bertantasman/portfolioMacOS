@@ -260,17 +260,19 @@ export const profile: DeveloperProfile = {
       ],
     },
   ],
-  // Skills the CV lists (its Skills section, its summary, or the duties of a position). Levels are kept only where
-  // the CV states one ("SwiftUI (intermediate)"). Technologies used in public repositories are shown separately.
+  // Skills: the CV's list, extended on 2026-11-12 with the technologies the developer's projects use (stated by the developer,
+  // and visible in the projects' own build files). Levels are kept only where the CV states one ("SwiftUI (intermediate)").
   skillGroups: [
-    { id: "languages", name: "Programming Languages", skills: ["Swift", "Java", "Python"] },
-    { id: "mobile", name: "Mobile Development", skills: ["iOS development", "UIKit", "SwiftUI (intermediate)", "Flutter", "Android"] },
-    { id: "backend-data", name: "Backend and Data", skills: ["Firebase", "JSON"] },
+    { id: "languages", name: "Programming Languages", skills: ["Swift", "Kotlin", "Java", "Python", "TypeScript", "JavaScript"] },
+    { id: "mobile", name: "Mobile Development", skills: ["iOS development", "Android development", "UIKit", "SwiftUI (intermediate)", "Jetpack Compose", "Material 3", "SpriteKit", "libGDX", "StoreKit 2", "Flutter"] },
+    { id: "backend-data", name: "Backend and Data", skills: ["Firebase", "Cloud Firestore", "Cloud Functions", "Firebase Cloud Messaging", "Express", "Prisma", "JSON"] },
+    { id: "web", name: "Web Development", skills: ["Next.js", "React", "Tailwind CSS", "HTML and CSS"] },
+    { id: "ai-vision", name: "Computer Vision", skills: ["OpenCV", "PyTorch"] },
     { id: "developer-tools", name: "Developer Tools", skills: ["Git", "Postman"] },
-    { id: "engineering", name: "Software Engineering", skills: ["Object-Oriented Programming", "Analysing software specifications", "Software testing"] },
+    { id: "engineering", name: "Software Engineering", skills: ["MVVM architecture", "Object-Oriented Programming", "Analysing software specifications", "Software testing"] },
   ],
   // The technologies the CV's summary names as hands-on experience.
-  featuredSkills: ["Swift", "SwiftUI (intermediate)", "Flutter", "Java", "Python", "Firebase"],
+  featuredSkills: ["Swift", "SwiftUI (intermediate)", "Kotlin", "Jetpack Compose", "Firebase", "Python"],
   certifications: [],
   languages: [
     { id: "turkish", language: "Turkish", proficiency: "Native" },
