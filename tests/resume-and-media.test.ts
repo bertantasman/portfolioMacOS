@@ -33,7 +33,7 @@ test("the name is Bertan Taşman everywhere it is configured", () => {
 test("every media file exists, has alt text and belongs to a real project", () => {
   const registry = deriveRegistry([]);
   const media = getAllMedia();
-  assert.ok(media.length >= 24, "the CourtRise and LineMaster images are listed");
+  assert.ok(media.length >= 41, "the CourtRise, LineMaster and BuGunluk images are listed");
   for (const m of media) {
     assert.ok(existsSync(join("public", m.src)), `${m.src} is missing`);
     assert.ok(m.alt.length > 10 && m.title && m.description, `${m.id} lacks text`);
@@ -42,4 +42,5 @@ test("every media file exists, has alt text and belongs to a real project", () =
   }
   assert.equal(media.filter((m) => m.projectId === "courtrise").length, 14);
   assert.equal(media.filter((m) => m.projectId === "linemaster").length, 10);
+  assert.equal(media.filter((m) => m.projectId === "bugunluk").length, 17);
 });

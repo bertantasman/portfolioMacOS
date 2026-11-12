@@ -70,3 +70,7 @@ Role-based flow, duplicate-application prevention, real-time messaging and payme
 - **Release.** The project folder contains an App Store export archive. This does not show a release and nothing about it is claimed.
 - **Interface language.** The app is in Turkish; the case study says so.
 - **Repository.** Private; no link is published.
+
+## Screenshots (added 2026-11-12)
+
+The gallery has 17 iPhone screenshots from the developer's own build: onboarding, login, role selection, worker registration, the worker flow (jobs, job details, applying, applications), the employer flow (reviewing an applicant, dashboard, creating a job), profile and settings, and four Dark Mode versions (which also show the Light and Dark Mode support). The jobs list is the cover. They were resized to 660×1435 JPEG and use sample data only (fictional worker, businesses and placeholder contact details). The Help & Support screens (light and dark) were **not** used because they show a placeholder support email address at a domain that may not be the developer's. Notes: the app's login screen shows the working name "JobLink", and some interface text is Turkish; both are visible in the screenshots and are not claimed to be final.

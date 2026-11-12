@@ -47,6 +47,8 @@ export const curatedContent: readonly ProjectContent[] = [
       { name: "Cloud Functions", category: "backend" },
     ],
     developmentStatus: "in-development",
+    // The jobs list is the cover, rather than the first (onboarding) screenshot.
+    coverMediaId: "bugunluk-05",
     caseStudy: {
       summary: [
         { label: "Role", value: "Co-Creator & iOS / Firebase Developer" },
