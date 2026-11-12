@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+:root {
+  --font-system:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-system-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Theme tokens (light). Dark overrides are below. */
+  --ink: #000000; /* foreground: text-black/* utilities resolve to this */
+  --text-primary: var(--ink);
+  --surface-primary: #ffffff;
+  --surface-secondary: #f7f7f8;
+  --surface-sidebar: #e9e9ec;
+  --surface-translucent: rgb(246 246 246 / 0.9);
+  --surface-titlebar: #ececec;
+  --surface-titlebar-inactive: #f3f3f3;
+  --surface-raised: #ffffff;
+  --control-inactive: #d1d1d6;
+  --notes-selected: #fbe08a;
+  --notice-bg: #fff7e0;
+  --start-gradient: linear-gradient(135deg, #eef1f8, #f4f3fa, #f8f1f6);
+  --menubar-bg: rgb(0 0 0 / 0.25);
+  --dock-bg: rgb(255 255 255 / 0.15);
+  --link-color: #0969da;
+  --accent-color: #0a60ff;
+  --accent: var(--accent-color);
+  --accent-fg: #ffffff;
+  --selection-background: var(--accent-color);
+  --hover-background: rgb(0 0 0 / 0.05);
+  color-scheme: light;
+
+  /* Desktop layer stacking order (inside the Desktop stacking context) */
+  --z-wallpaper: 0;
+  --z-desktop-icons: 10;
+  --z-widgets: 20; /* widgets sit above the icons and below every window */
+  --z-windows: 100; /* individual windows are ordered within this range */
+  --z-mission-control-backdrop: 50; /* blurs the wallpaper and icons, under the windows */
+  --z-mission-control: 910; /* labels and hit targets, above the windows, below the menu bar and Dock */
+  --z-launchpad: 900; /* above windows, below the menu bar and Dock */
+  --z-menubar: 1000;
+  --z-dock: 1100;
+  --z-notifications: 1500; /* banners, above the menu bar and Dock */
+  --z-notification-center: 1600;
+  --z-context-menu: 1700; /* right-click menus, above Notification Center */
+  --z-onboarding: 4000; /* tour and welcome: above every overlay and the brightness dimming, below the boot/lock screens */
+  --z-overlay: 2000;
+  --z-startup: 5000; /* boot and lock screens: above everything, brightness included */ /* Spotlight */
+  --z-brightness: 3000; /* portfolio brightness dimming, above everything and click-through */
+}
+
+/* The foreground ("black") and the surface colours are tokens, so every
+   text-black/*, bg-black/* and bg-surface utility follows the theme. */
+:root[data-theme="dark"] {
+  --ink: #ffffff;
+  --surface-primary: #1e1e20;
+  --surface-secondary: #2a2a2d;
+  --surface-sidebar: #262629;
+  --surface-translucent: rgb(44 44 47 / 0.9);
+  --surface-titlebar: #323234;
+  --surface-titlebar-inactive: #29292b;
+  --surface-raised: #3b3b3f;
+  --control-inactive: #55555a;
+  --notes-selected: #6b5617;
+  --notice-bg: #4a3f1a;
+  --start-gradient: linear-gradient(135deg, #1b1d26, #201e29, #26202a);
+  --menubar-bg: rgb(0 0 0 / 0.4);
+  --dock-bg: rgb(30 30 32 / 0.4);
+  --hover-background: rgb(255 255 255 / 0.07);
+  --link-color: #4493f8;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-black: var(--ink);
+  --color-surface: var(--surface-primary);
+  --color-surface-2: var(--surface-secondary);
+  --color-sidebar: var(--surface-sidebar);
+  --color-window: var(--surface-translucent);
+  --color-titlebar: var(--surface-titlebar);
+  --color-titlebar-inactive: var(--surface-titlebar-inactive);
+  --color-raised: var(--surface-raised);
+  --color-control-inactive: var(--control-inactive);
+  --color-notes-selected: var(--notes-selected);
+  --color-notice: var(--notice-bg);
+  --font-sans: var(--font-system);
+  --font-mono: var(--font-system-mono);
+}
+
+/* First visits only: the inline script in layout.tsx sets data-startup="pending", so the dark cover is
+   there before React loads and the desktop never flashes. Returning visitors never see it. */
+.startup-cover {
+  display: none;
+}
+html[data-startup="pending"] .startup-cover {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background-color: #2a1a78;
+  color: #fff;
+  font-family: var(--font-system);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+/* Reduce Motion (the visitor's setting, or the OS preference) */
+:root[data-reduce-motion="true"] *,
+:root[data-reduce-motion="true"] *::before,
+:root[data-reduce-motion="true"] *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Shown only when an application's code takes a moment to arrive; never flashes on a fast load. */
+@keyframes app-loading-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes app-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.app-loading-spinner {
+  animation:
+    app-loading-in 0.2s 0.3s both,
+    app-loading-spin 0.8s linear infinite;
+}
