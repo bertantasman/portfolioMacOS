@@ -7,6 +7,9 @@ import { useOverlayStore } from "./overlay-store";
 interface OnboardingStore {
   status: OnboardingStatus;
   currentStep: number;
+  /** A one-time pointer at the Projects folder, set only when this visit's welcome was dismissed. Never persisted. */
+  hint: "projects" | null;
+  dismissHint: () => void;
   /** Reads storage once on the client. Only a visitor with nothing stored is invited. */
   hydrate: () => void;
   /** Shows the welcome invitation (first visit, once the desktop is ready). */
@@ -15,7 +18,8 @@ interface OnboardingStore {
   start: () => void;
   next: () => void;
   back: () => void;
-  skip: () => void;
+  /** `skip({ hint: true })` is a plain dismissal of the welcome: it leaves the Projects hint behind. */
+  skip: (options?: { hint?: boolean }) => void;
   complete: () => void;
 }
 
@@ -28,6 +32,8 @@ const lastStep = onboardingSteps.length - 1;
 export const useOnboardingStore = create<OnboardingStore>()((set, get) => ({
   status: "initializing",
   currentStep: 0,
+  hint: null,
+  dismissHint: () => set({ hint: null }),
 
   hydrate: () => {
     if (get().status !== "initializing") return;
@@ -60,13 +66,15 @@ export const useOnboardingStore = create<OnboardingStore>()((set, get) => ({
     set((s) => ({ currentStep: Math.max(0, s.currentStep - 1) }));
   },
 
-  skip: () => {
+  skip: (options) => {
+    const viaClose = options?.hint === true;
     if (get().status !== "welcome" && get().status !== "active") return;
     useOverlayStore.getState().close();
     // Dismissing the welcome window (button, X or Escape) counts as done; leaving the tour midway is "skipped".
     const fromWelcome = get().status === "welcome";
     writeOnboarding(fromWelcome ? "completed" : "skipped");
-    set({ status: fromWelcome ? "completed" : "skipped" });
+    // Closing the welcome without choosing leaves a small pointer at the Projects folder; it is session-only.
+    set({ status: fromWelcome ? "completed" : "skipped", hint: fromWelcome && viaClose ? "projects" : null });
   },
 
   complete: () => {

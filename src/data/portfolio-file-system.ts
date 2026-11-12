@@ -15,6 +15,8 @@ import { profileFileLines } from "@/lib/profile/text";
 
 
 export const ROOT_ID = "macbook";
+/** The Projects folder on the Desktop: an alias of the real Projects folder. */
+export const DESKTOP_PROJECTS_ID = "desktop:projects";
 export const FOLDER = {
   desktop: "desktop",
   documents: "documents",
@@ -100,12 +102,19 @@ function buildFiles(): VirtualFile[] {
   // The resume file and its Desktop alias are references to the document registry, never a second resume.
   ...resumeFiles(),
 
-  // Only hand-curated projects sit on the Desktop; repositories live in Projects.
-  ...projects.filter((p) => p.source === "curated").map((project) => placement(`desktop:project:${project.id}`, FOLDER.desktop, project)),
+  // The Desktop keeps a short, intentional set: one Projects folder (an alias of Documents › Projects, so there is a
+  // single project listing), the résumé above, and two profile notes. Individual projects live inside Projects.
+  { id: DESKTOP_PROJECTS_ID, name: "Projects", type: "folder", parentId: FOLDER.desktop, aliasOf: FOLDER.projects, description: "Explore my applications, games, and development work." },
+  { id: "desktop:about-me", name: "About Me", type: "document", parentId: FOLDER.desktop, extension: "md", noteId: "about-me", description: "Who I am and what I build." },
+  { id: "desktop:contact", name: "Contact", type: "document", parentId: FOLDER.desktop, extension: "md", noteId: "contact-information", description: "How to get in touch." },
 
   // One folder per category that has projects in it, plus Featured when any project is featured.
   ...usedCategories.map((c) => folder(c.id, c.name, FOLDER.projects)),
   ...(hasFeatured ? [folder(FOLDER.featured, "Featured", FOLDER.projects)] : []),
+
+  // The hand-written projects (apps, games, web work) sit directly in Projects, so the folder opens onto them;
+  // repositories are reached through the category folders below.
+  ...projects.filter((p) => p.source === "curated").map((project) => placement(`project:${project.id}@${FOLDER.projects}`, FOLDER.projects, project)),
 
   // Each project is placed once per category it belongs to. These are
   // references (projectId), not copies of the project.

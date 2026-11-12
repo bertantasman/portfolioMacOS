@@ -18,7 +18,7 @@ export function buildSearchIndex(): SpotlightItem[] {
 
   // Applications you can open (the Project Viewer is a document viewer, not launched by name).
   for (const app of applications) {
-    if (app.type !== "internal" || !app.defaultInDock) continue;
+    if (app.type !== "internal" || !app.launchable) continue;
     items.push({
       id: `app:${app.id}`,
       type: "application",
@@ -51,7 +51,7 @@ export function buildSearchIndex(): SpotlightItem[] {
   const stack = [fs.rootId];
   while (stack.length > 0) {
     for (const file of fs.getChildren(stack.pop()!)) {
-      if (file.type === "folder") stack.push(file.id);
+      if (file.type === "folder" && !file.aliasOf) stack.push(file.id);
       if (file.type === "project" || file.parentId === "desktop") continue;
       const parent = fs.getParent(file.id);
       items.push({

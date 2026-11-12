@@ -8,9 +8,12 @@ import { useOverlayStore } from "@/store/overlay-store";
 import { useSettingsStore } from "@/store/settings-store";
 import { useDockMagnification } from "@/hooks/use-dock-magnification";
 import { useWindowStore } from "@/store/window-store";
-import type { ApplicationDefinition, ApplicationId } from "@/types/application";
+import type { ApplicationDefinition, ApplicationId, DockSection } from "@/types/application";
 import { DockItem } from "./dock-item";
 import { DockSeparator } from "./dock-separator";
+
+/** The groups that make up the default Dock; they stay visible on narrow screens. */
+const isPinnedSection = (section: DockSection) => section === "primary" || section === "identity";
 
 interface DockProps {
   /** Overrides the running set, which otherwise comes from open windows. */
@@ -42,10 +45,12 @@ export function Dock({ running: runningOverride, onLaunch }: DockProps) {
   const dockSize = useSettingsStore((s) => s.dockSize);
   const sections = getDockSections();
   const lastSection = sections.length - 1;
-  // Below 520px only the primary section is shown. Its icons are sized so they always fit the screen:
-  // (viewport − outer and inner padding − 6px slot padding per icon) ÷ icon count.
-  const narrowCount = sections[0]?.length ?? 1;
-  const narrowIcon = `calc((100vw - ${26 + 6 * narrowCount}px) / ${narrowCount})`;
+  // Below 520px the pinned groups still show (the Dock is short on purpose); any extra social/system section is
+  // hidden. Icons are sized so they always fit: (viewport − outer and inner padding − 6px slot padding per icon) ÷ count.
+  const pinned = sections.filter((s) => isPinnedSection(s[0].dockSection));
+  const narrowCount = Math.max(1, pinned.flat().length);
+  const separators = Math.max(0, pinned.length - 1) * 9; // 1px line + 4px margin on each side
+  const narrowIcon = `calc((100vw - ${26 + 6 * narrowCount + separators}px) / ${narrowCount})`;
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-(--z-dock) flex justify-center px-2">
@@ -66,7 +71,7 @@ export function Dock({ running: runningOverride, onLaunch }: DockProps) {
             <Fragment key={apps[0].dockSection}>
               {sectionIndex > 0 && (
                 <DockSeparator
-                  className={sections[sectionIndex][0].dockSection !== "primary" ? "max-[519px]:hidden" : ""}
+                  className={!isPinnedSection(sections[sectionIndex][0].dockSection) ? "max-[519px]:hidden" : ""}
                 />
               )}
               {apps.map((app, i) => {
@@ -79,7 +84,7 @@ export function Dock({ running: runningOverride, onLaunch }: DockProps) {
                     running={running.has(app.id)}
                     magnification={field}
                     tooltipAlign={isFirst ? "start" : isLast ? "end" : "center"}
-                    hideOnNarrow={app.dockSection !== "primary"}
+                    hideOnNarrow={!isPinnedSection(app.dockSection)}
                     onLaunch={launch}
                   />
                 );

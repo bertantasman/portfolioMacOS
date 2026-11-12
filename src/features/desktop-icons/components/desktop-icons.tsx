@@ -6,7 +6,9 @@ import { contextMenuProps } from "@/features/context-menu/hooks/use-context-menu
 import { useShouldReduceMotion } from "@/hooks/use-should-reduce-motion";
 import { openVirtualFile } from "@/lib/navigation";
 import type { VirtualFile } from "@/lib/virtual-fs/types";
+import { DESKTOP_PROJECTS_ID } from "@/data/portfolio-file-system";
 import { useDesktopStore } from "@/store/desktop-store";
+import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWidgetStore } from "@/store/widget-store";
 import { cellKey, getDesktopItems, nearestFreeCell, resolveLayout, type Cell } from "../lib/layout";
 
@@ -32,6 +34,8 @@ export function DesktopIcons() {
   const setMetrics = useDesktopStore((s) => s.setMetrics);
   const setPositions = useDesktopStore((s) => s.setPositions);
   const reduced = useShouldReduceMotion();
+  const hint = useOnboardingStore((s) => s.hint);
+  const dismissHint = useOnboardingStore((s) => s.dismissHint);
 
   const areaRef = useRef<HTMLDivElement>(null);
   const suppressClickRef = useRef(false);
@@ -42,6 +46,13 @@ export function DesktopIcons() {
   useEffect(() => {
     void useDesktopStore.persist.rehydrate();
   }, []);
+
+  // The Projects pointer is a gentle nudge, not a fixture: it goes away by itself after a while.
+  useEffect(() => {
+    if (!hint) return;
+    const timer = setTimeout(dismissHint, 15000);
+    return () => clearTimeout(timer);
+  }, [hint, dismissHint]);
 
   useLayoutEffect(() => {
     const el = areaRef.current;
@@ -213,12 +224,15 @@ export function DesktopIcons() {
                   aria-selected={selected}
                   aria-label={item.name}
                   data-desktop-icon={item.id}
+                  data-onboarding-target={item.id === DESKTOP_PROJECTS_ID ? "onboarding-projects" : undefined}
                   tabIndex={item.id === tabbableId ? 0 : -1}
                   onClick={() => {
                     if (!suppressClickRef.current) setSelectedId(item.id);
                   }}
                   onDoubleClick={() => {
-                    if (!suppressClickRef.current) openVirtualFile(item.id);
+                    if (suppressClickRef.current) return;
+                    if (item.id === DESKTOP_PROJECTS_ID) dismissHint();
+                    openVirtualFile(item.id);
                   }}
                   onPointerDown={(e) => beginPress(e, item)}
                   onContextMenu={menu.onContextMenu}
@@ -228,7 +242,7 @@ export function DesktopIcons() {
                   }}
                   className="group flex size-full touch-none cursor-default flex-col items-center gap-1 rounded-lg px-1 pt-1.5 outline-none focus-visible:ring-2 focus-visible:ring-white/80"
                 >
-                  <span className={`grid place-items-center rounded-lg ${selected ? "bg-white/20" : ""}`} style={{ width: iconSize + 8, height: iconSize }}>
+                  <span className={`grid place-items-center rounded-lg ${selected ? "bg-white/20" : item.id === DESKTOP_PROJECTS_ID && hint === "projects" ? "bg-white/10 ring-1 ring-white/40" : ""}`} style={{ width: iconSize + 8, height: iconSize }}>
                     <FileTypeIcon file={item} className="h-auto max-h-full w-auto max-w-full" />
                   </span>
                   <span
@@ -239,6 +253,14 @@ export function DesktopIcons() {
                     {item.name}
                   </span>
                 </button>
+                {item.id === DESKTOP_PROJECTS_ID && hint === "projects" && (
+                  <div role="status" className="absolute top-3 right-full z-20 mr-1 flex w-max max-w-[200px] items-start gap-1.5 rounded-xl border border-white/25 bg-black/55 py-2 pr-1.5 pl-3 text-[12px] leading-4 text-white shadow-lg backdrop-blur-xl">
+                    <span>Start here to explore what I’ve built.</span>
+                    <button type="button" aria-label="Dismiss hint" onClick={dismissHint} className="grid size-5 shrink-0 place-items-center rounded-full text-white/70 outline-none hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/80">
+                      <span aria-hidden>×</span>
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

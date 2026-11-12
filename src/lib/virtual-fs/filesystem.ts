@@ -63,7 +63,8 @@ export function createFileSystem<TProject = never>(
   return {
     rootId,
     getFile,
-    getChildren: (folderId) => childrenByParent.get(folderId) ?? [],
+    // An alias folder lists what the folder it points to contains; the children keep their real parent.
+    getChildren: (folderId) => childrenByParent.get(byId.get(folderId)?.aliasOf ?? folderId) ?? [],
     getParent,
     getPath,
     getPathString: (id, separator = " / ") =>

@@ -55,7 +55,7 @@ export function OnboardingController() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && useOverlayStore.getState().active === null) {
         e.preventDefault();
-        skip();
+        skip({ hint: true });
       }
     };
     window.addEventListener("keydown", onKeyDown, true);

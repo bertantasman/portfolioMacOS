@@ -25,7 +25,7 @@ interface DockItemProps {
 }
 
 /** Dock icons the onboarding tour can point at. */
-const onboardingTargets: Partial<Record<string, string>> = { finder: "onboarding-finder", "mission-control": "onboarding-mission-control" };
+const onboardingTargets: Partial<Record<string, string>> = { finder: "onboarding-finder" };
 
 const controlClass =
   "relative block size-full rounded-[12px] before:absolute before:-inset-x-[3px] before:-inset-y-1.5 before:content-[''] outline-none transition-[filter] duration-100 hover:brightness-110 active:brightness-90 focus-visible:ring-2 focus-visible:ring-white/80";

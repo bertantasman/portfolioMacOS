@@ -20,7 +20,8 @@ export type ApplicationId =
 /** What an application can open from the virtual file system. */
 export type OpenKind = "folder" | "project" | "image" | "pdf" | "note";
 
-export type DockSection = "primary" | "social" | "system";
+/** "primary" and "identity" are the pinned Dock groups; "social" and "system" are kept for apps that are not pinned. */
+export type DockSection = "primary" | "identity" | "social" | "system";
 
 export interface ApplicationDefinition {
   /** Stable identifier; safe to persist and to use as a React key. */
@@ -31,7 +32,10 @@ export interface ApplicationDefinition {
   /** "internal" apps open in the desktop; "external" apps link to a profile. */
   type: "internal" | "external";
   dockSection: DockSection;
-  defaultInDock: boolean;
+  /** Appears in Launchpad and Spotlight. */
+  launchable: boolean;
+  /** Pinned to the Dock by default. */
+  inDock: boolean;
   /** Extra Spotlight search terms (the name is always searchable). */
   searchKeywords?: readonly string[];
   /** Absolute http(s) URL for external apps. Empty/undefined means not configured. */

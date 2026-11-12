@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { X } from "lucide-react";
 import { FOLDER } from "@/data/portfolio-file-system";
+import { getDocumentById, isPublished } from "@/data/documents";
 import { profile } from "@/data/profile";
-import { navigateFinderToFolder } from "@/lib/navigation";
+import { navigateFinderToFolder, openDocumentById } from "@/lib/navigation";
 import { useShouldReduceMotion } from "@/hooks/use-should-reduce-motion";
 import { useOnboardingStore } from "@/store/onboarding-store";
 
@@ -14,16 +15,23 @@ export function OnboardingWelcome() {
   const reduced = useShouldReduceMotion();
   const skip = useOnboardingStore((s) => s.skip);
   const exploreRef = useRef<HTMLButtonElement>(null);
-  const name = profile.displayName?.trim();
+  // Only offered when a résumé is published (it is the same document Finder and Preview open).
+  const resume = profile.resume && getDocumentById(profile.resume.documentId) && isPublished(getDocumentById(profile.resume.documentId)!) ? profile.resume : null;
 
   useEffect(() => {
     exploreRef.current?.focus();
   }, []);
 
+  // Choosing an action ends the welcome without leaving a hint behind; closing it (X, Escape) points at Projects instead.
   const viewProjects = () => {
     skip();
-    // The same Finder folder the Dock and Spotlight lead to; nothing new is built for this.
+    // The same Finder folder the Desktop's Projects icon, Spotlight and Safari lead to; nothing new is built for this.
     navigateFinderToFolder(FOLDER.projects);
+  };
+  const exploreDesktop = () => skip({ hint: true });
+  const viewResume = () => {
+    skip();
+    if (resume) openDocumentById(resume.documentId);
   };
 
   return (
@@ -52,31 +60,36 @@ export function OnboardingWelcome() {
         <button
           type="button"
           aria-label="Close welcome message"
-          onClick={skip}
+          onClick={() => skip({ hint: true })}
           className="absolute top-3 right-3 grid size-9 place-items-center rounded-full text-black/50 outline-none hover:bg-black/[0.07] focus-visible:ring-2 focus-visible:ring-(--accent)"
         >
           <X className="size-4" aria-hidden />
         </button>
         <h2 id="onboarding-welcome-title" className="pr-8 text-[20px] leading-7 font-semibold text-black/90">
-          Welcome to {name ? `${name}’s` : "my"} portfolio
+          Welcome to My Desktop
         </h2>
         <div id="onboarding-welcome-body" className="mt-3 space-y-2.5 text-[14px] leading-6 text-black/70">
-          <p>This is a personal portfolio, designed to look and feel like a Mac desktop. You can explore my projects, learn about my background and see the technologies I work with.</p>
-          <p>Click an icon in the bar at the bottom to open an app. Finder holds my projects, Safari has my story, and the magnifying glass at the top searches everything.</p>
+          <p>This isn’t a traditional portfolio.</p>
+          <p>Explore my projects, learn about my experience, and discover the software I’ve built through an interactive desktop.</p>
         </div>
         <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse sm:justify-start">
           <button
             ref={exploreRef}
             type="button"
-            onClick={skip}
+            onClick={viewProjects}
             className="h-11 rounded-full bg-(--accent) px-6 text-[14px] font-medium text-(--accent-fg) outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
-            Explore Portfolio
+            Explore Projects
           </button>
-          <button type="button" onClick={viewProjects} className="h-11 rounded-full bg-black/[0.07] px-6 text-[14px] text-black/80 outline-none hover:bg-black/[0.12] focus-visible:ring-2 focus-visible:ring-(--accent)">
-            View Projects
+          <button type="button" onClick={exploreDesktop} className="h-11 rounded-full bg-black/[0.07] px-6 text-[14px] text-black/80 outline-none hover:bg-black/[0.12] focus-visible:ring-2 focus-visible:ring-(--accent)">
+            Explore Desktop
           </button>
         </div>
+        {resume && (
+          <button type="button" onClick={viewResume} className="mt-3 rounded text-[13px] text-black/60 underline-offset-2 outline-none hover:text-black/85 hover:underline focus-visible:ring-2 focus-visible:ring-(--accent)">
+            View Resume
+          </button>
+        )}
       </div>
     </motion.div>
   );

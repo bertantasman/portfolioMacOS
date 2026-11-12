@@ -10,7 +10,7 @@ export const onboardingSteps: readonly OnboardingStep[] = [
   {
     id: "dock",
     title: "Everything Starts Here",
-    description: "Use the Dock to open applications such as Finder, Safari, Terminal and Mail.",
+    description: "Open apps from the Dock: Finder, Safari, Terminal, Notes and Mail. Launchpad has everything else.",
     targetId: "onboarding-dock",
     placement: "top",
   },
@@ -26,7 +26,9 @@ export const onboardingSteps: readonly OnboardingStep[] = [
   {
     id: "projects",
     title: "See What I’ve Built",
-    description: "Browse my software projects and open their details to explore the technologies and ideas behind them.",
+    description: "The Projects folder on the desktop holds my apps, games and development work. Open one to read its case study.",
+    targetId: "onboarding-projects",
+    placement: "left",
     action: { id: "open-projects", label: "Explore Projects" },
   },
   {
@@ -43,10 +45,7 @@ export const onboardingSteps: readonly OnboardingStep[] = [
     id: "mission-control",
     title: "Manage Your Workspace",
     description: "View all open windows and switch between applications using Mission Control.",
-    targetId: "onboarding-mission-control",
-    placement: "top",
     shortcut: "Ctrl + Shift + M",
-    interactiveTarget: true,
     action: { id: "open-mission-control", label: "Open Mission Control" },
   },
   {

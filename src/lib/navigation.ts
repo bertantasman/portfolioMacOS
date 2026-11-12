@@ -76,7 +76,8 @@ export function openDocumentById(documentId: string): boolean {
 export function navigateFinderToFolder(folderId: string): boolean {
   const folder = portfolioFileSystem.getFile(folderId);
   if (folder?.type !== "folder") return fail(`"${folderId}" is not a folder.`);
-  store().openFolder(folder.id);
+  // An alias (the Desktop's Projects) opens the real folder, so Finder lands in Documents › Projects.
+  store().openFolder(folder.aliasOf ?? folder.id);
   return true;
 }
 

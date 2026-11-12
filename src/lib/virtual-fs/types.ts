@@ -28,6 +28,8 @@ export interface VirtualFile {
   documentId?: string;
   /** A document that opens as a note in Notes (profile entries such as Education or Experience): the note's id. */
   noteId?: string;
+  /** Only on `folder` files: this folder is an alias that shows the contents of another folder (e.g. the Desktop's Projects). */
+  aliasOf?: string;
   /** A one-line description shown in Get Info. Leave unset when there is nothing to say. */
   description?: string;
 }

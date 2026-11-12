@@ -71,6 +71,13 @@ export function validateFileSystem(
       else if (hasNote && !hasNote(file.noteId)) errors.push(`Document file ${label} references unknown note "${file.noteId}".`);
     }
 
+    if (file.aliasOf !== undefined) {
+      const target = byId.get(file.aliasOf);
+      if (file.type !== "folder") errors.push(`Non-folder file ${label} must not set aliasOf.`);
+      else if (!target || target.type !== "folder") errors.push(`Folder alias ${label} points to "${file.aliasOf}", which is not a folder.`);
+      else if (target.aliasOf !== undefined) errors.push(`Folder alias ${label} points to another alias "${file.aliasOf}".`);
+    }
+
     if (file.type === "project") {
       if (!file.projectId) errors.push(`Project file ${label} has no projectId.`);
       else if (!hasProject(file.projectId)) {
