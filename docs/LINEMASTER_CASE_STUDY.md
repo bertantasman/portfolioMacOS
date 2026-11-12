@@ -59,5 +59,5 @@ Playable Prototype. No store listing, downloads, revenue, reviews or release dat
 - Repository visibility and the GitHub button (see section 11).
 - Whether the Android version matches iOS feature for feature.
 - Exact tuning values (only the figures you gave are shown).
-- No screenshots or recordings are in the portfolio. Local gameplay captures may exist but none were added; tell me which are approved.
+- Screenshots (added 2026-11-12): 10 English gameplay captures from the developer's folder of store-style photos (5 iPhone, 5 iPad simulator), resized to JPEG and shown in the project gallery with captions. They show real gameplay and no personal data. The Turkish versions were not used. Their presence in a store-photos folder is not treated as a release: the page still says Playable Prototype.
 - The PNG skin and accessory artwork's origin and usage rights were not checked.
