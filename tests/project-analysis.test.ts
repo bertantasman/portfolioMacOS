@@ -95,7 +95,8 @@ test("a repository with no description still gets the written summary, and GitHu
 test("every repository override points at an analysed repository, and categories reach the registry", async () => {
   const { repositoryOverrides } = await import("@/data/github-overrides");
   const known = new Set(projectAnalysis.map((a) => a.projectId));
-  for (const o of repositoryOverrides) assert.ok(o.repositoryId !== undefined && known.has(`github:${o.repositoryId}`), `override for ${o.repositoryId} has no analysis`);
+  // A hidden repository never reaches the portfolio, so it needs no written analysis (and none is kept for it).
+  for (const o of repositoryOverrides.filter((o) => !o.hidden)) assert.ok(o.repositoryId !== undefined && known.has(`github:${o.repositoryId}`), `override for ${o.repositoryId} has no analysis`);
   const p = deriveRegistry([repo(962026935, "InstaClone", { topics: [] })]).byId.get("github:962026935");
   assert.deepEqual(p?.categories, ["ios-development"]);
 });

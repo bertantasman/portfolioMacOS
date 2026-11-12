@@ -25,6 +25,8 @@ export const repositoryOverrides: readonly RepositoryOverride[] = [
   // SmartHat is an empty repository (no code or documentation), so it is not presented as a project. Remove this
   // line once it has content.
   { repositoryId: 1264257996, hidden: true },
+  // A repository the developer does not want shown anywhere in the portfolio.
+  { repositoryId: 1446959960, hidden: true },
 
   // Categories set from what each repository demonstrably contains (see data/project-content/analysis.ts).
   // GitHub topics are empty for these repositories, so the automatic classification would file them all under "Other".

@@ -1,9 +1,12 @@
 import { getRepositories } from "@/lib/github/repositories";
+import { isHiddenRepository } from "@/lib/projects/registry";
 
 /** Public repositories of the configured GitHub account. Dynamic: the shared cache lives in lib/github. */
 export async function GET(request: Request) {
   const force = new URL(request.url).searchParams.get("refresh") === "1";
-  const result = await getRepositories({ force });
+  const fetched = await getRepositories({ force });
+  // Repositories the developer hides are removed here, on the server, so they are not in the public response either.
+  const result = fetched.ok ? { ...fetched, repositories: fetched.repositories.filter((r) => !isHiddenRepository(r)) } : fetched;
   const status = result.ok ? 200 : result.reason === "rate-limited" ? 429 : result.reason === "not-found" ? 404 : result.reason === "unavailable" ? 502 : 200;
   return Response.json(result, {
     status,

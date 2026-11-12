@@ -31,6 +31,9 @@ function repoFromUrl(url: string | undefined): string | undefined {
   }
 }
 
+/** Whether the developer chose to leave this repository out of the portfolio entirely. */
+export const isHiddenRepository = (repo: GitHubRepository) => findOverride(repo)?.hidden === true;
+
 function findOverride(repo: GitHubRepository): RepositoryOverride | undefined {
   return repositoryOverrides.find((o) => (o.repositoryId !== undefined && o.repositoryId === repo.id) || (o.repositoryFullName && lower(o.repositoryFullName) === lower(repo.fullName)));
 }
