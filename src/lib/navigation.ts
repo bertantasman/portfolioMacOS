@@ -24,6 +24,20 @@ function fail(message: string): false {
 
 const store = () => useWindowStore.getState();
 
+/** Launches a Dock shortcut: opens its existing destination (Finder folder, note, or a new message in Mail). */
+export function launchShortcut(app: ApplicationDefinition): boolean {
+  const target = app.shortcut;
+  if (!target) return false;
+  switch (target.kind) {
+    case "folder":
+      return navigateFinderToFolder(target.folderId);
+    case "note":
+      return openNoteById(target.noteId);
+    case "compose":
+      return openMailCompose();
+  }
+}
+
 export function openApplicationById(appId: string): boolean {
   try {
     const app = getApplication(appId as ApplicationId);
@@ -32,6 +46,7 @@ export function openApplicationById(appId: string): boolean {
     return fail(`Unknown application "${appId}".`);
   }
   const app = getApplication(appId as ApplicationId);
+  if (app.shortcut) return launchShortcut(app);
   // Overlays such as Launchpad have no window; opening one closes any other overlay.
   if (app.overlay) {
     useOverlayStore.getState().open(app.overlay);

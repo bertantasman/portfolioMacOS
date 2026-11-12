@@ -7,13 +7,12 @@ export type Cell = DesktopIconPosition;
 
 const key = (c: Cell) => `${c.column}:${c.row}`;
 
-/** Everything that appears on the desktop: the startup volume, then the Desktop folder's items. */
+/** Everything that appears on the desktop: the Desktop folder's items (the startup volume is not shown, as in current macOS). */
 export function getDesktopItems(sortBy: DesktopSortKey | null): VirtualFile[] {
-  const root = fs.getFile(fs.rootId);
   const children = fs.getChildren("desktop");
   const sorted = sortFiles(children, { key: sortBy === "modified" ? "modified" : sortBy === "kind" ? "kind" : "name", foldersFirst: true });
   const ordered = sortBy === "size" ? bySize(sorted) : sorted;
-  return root ? [root, ...ordered] : [...ordered];
+  return [...ordered];
 }
 
 /** Items without a size sort last; ties keep their (name) order. */

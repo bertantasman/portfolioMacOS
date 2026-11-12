@@ -15,7 +15,11 @@ export type ApplicationId =
   | "instagram"
   | "system-settings"
   | "project-viewer"
-  | "preview";
+  | "preview"
+  // Dock shortcuts: they open an existing destination instead of a window of their own.
+  | "projects"
+  | "about-me"
+  | "contact";
 
 /** What an application can open from the virtual file system. */
 export type OpenKind = "folder" | "project" | "image" | "pdf" | "note";
@@ -44,6 +48,8 @@ export interface ApplicationDefinition {
   opens?: readonly OpenKind[];
   /** Set for desktop overlays (e.g. Launchpad): launching toggles the overlay instead of opening a window. */
   overlay?: "launchpad" | "mission-control";
+  /** Set for Dock shortcuts: where launching goes (an existing Finder folder, note, or a new message in Mail). */
+  shortcut?: { kind: "folder"; folderId: string } | { kind: "note"; noteId: string } | { kind: "compose" };
   /** Window defaults for internal applications; generic defaults apply if omitted. */
   window?: ApplicationWindowConfig;
 }

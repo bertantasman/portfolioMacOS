@@ -23,8 +23,8 @@ export function ContactWidget({ size, preview }: WidgetProps) {
   const socials = platforms.filter((p) => getProfileLink(p.id));
   const button = "inline-flex h-8 items-center gap-1.5 rounded-full bg-(--accent) px-3.5 text-[13px] font-medium text-(--accent-fg) outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
 
-  // The medium widget is only 160 px tall, so its buttons are a size smaller to keep them on one row.
-  const compactButton = "inline-flex h-7 items-center gap-1.5 rounded-full bg-(--accent) px-2.5 text-[11px] font-medium text-(--accent-fg) outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+  // The medium widget is only 134 px tall, so its buttons are a size smaller to keep them on one row.
+  const compactButton = "inline-flex h-6 items-center gap-1 rounded-full bg-(--accent) px-2 text-[11px] font-medium text-(--accent-fg) outline-none hover:brightness-110 focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
 
   if (size === "small") {
     return (
@@ -38,22 +38,21 @@ export function ContactWidget({ size, preview }: WidgetProps) {
     );
   }
   return (
-    <div className="flex size-full flex-col justify-center gap-0.5 px-5 py-3">
+    <div className="flex size-full flex-col justify-center gap-0 px-4 py-2.5">
       <span className="text-[11px] font-semibold tracking-wide text-(--accent) uppercase">Get in touch</span>
-      <span className="text-[18px] leading-6 font-semibold text-black/90">{name}</span>
+      <span className="text-[16px] leading-5 font-semibold text-black/90">{name}</span>
       {headline && <span className="text-[13px] leading-[18px] text-black/60">{headline}</span>}
       {mailto && profile.email && (
         <a href={mailto} tabIndex={tab} className="w-fit max-w-full truncate text-[12px] leading-4 text-black/55 outline-none hover:text-black/80 hover:underline focus-visible:ring-2 focus-visible:ring-(--accent)">
           {profile.email}
         </a>
       )}
-      <div className="mt-2 flex flex-wrap items-center gap-1">
+      <div className="mt-1.5 flex flex-nowrap items-center gap-1">
         <button type="button" tabIndex={tab} onClick={() => openMailCompose()} aria-label={`Contact ${name}: write a message in Mail`} className={compactButton}>
-          <Mail className="size-3.5" aria-hidden />
           Contact
         </button>
         {socials.map((s) => (
-          <button key={s.id} type="button" tabIndex={tab} onClick={() => openApplicationById(s.id)} aria-label={`Open ${s.label}`} className="h-7 rounded-full bg-black/[0.07] px-2 text-[11px] text-black/75 outline-none hover:bg-black/[0.12] focus-visible:ring-2 focus-visible:ring-(--accent)">
+          <button key={s.id} type="button" tabIndex={tab} onClick={() => openApplicationById(s.id)} aria-label={`Open ${s.label}`} className="h-6 rounded-full bg-black/[0.07] px-1.5 text-[11px] text-black/75 outline-none hover:bg-black/[0.12] focus-visible:ring-2 focus-visible:ring-(--accent)">
             {s.label}
           </button>
         ))}

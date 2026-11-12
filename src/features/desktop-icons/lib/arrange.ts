@@ -9,7 +9,7 @@ export function cleanUpDesktop() {
   setPositions(arrange(idsInVisualOrder(layout), metrics.rows));
 }
 
-/** Sorts the icons by `key` (the volume stays first) and lays them out from the top right. */
+/** Sorts the icons by `key` and lays them out from the top right. */
 export function sortDesktop(key: DesktopSortKey) {
   const { metrics, setPositions, setSortBy } = useDesktopStore.getState();
   setSortBy(key);

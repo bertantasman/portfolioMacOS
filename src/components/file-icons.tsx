@@ -1,3 +1,4 @@
+import { getProjectById } from "@/lib/projects/registry";
 import { getFileKind } from "@/lib/virtual-fs/kind";
 import type { VirtualFile } from "@/lib/virtual-fs/types";
 
@@ -64,20 +65,28 @@ export function ImageIcon({ className }: IconProps) {
   );
 }
 
-/** A project: a purple tile with code brackets, distinct from plain documents. */
-export function ProjectIcon({ className }: IconProps) {
+const stroke = { fill: "none", stroke: "#fff", strokeWidth: 4, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+
+/** Tile colour and glyph per project category. Generic shapes only: no app's real logo is imitated. */
+const projectLook: Record<string, { color: string; glyph: React.ReactNode }> = {
+  "ios-development": { color: "#2f7df6", glyph: <><rect x="22" y="13" width="20" height="38" rx="5" {...stroke} /><path d="M29 44h6" {...stroke} /></> },
+  "institutional-mobile": { color: "#2f7df6", glyph: <><rect x="22" y="13" width="20" height="38" rx="5" {...stroke} /><path d="M29 44h6" {...stroke} /></> },
+  "android-development": { color: "#2fa866", glyph: <><rect x="22" y="13" width="20" height="38" rx="5" {...stroke} /><path d="M29 44h6" {...stroke} /></> },
+  "web-development": { color: "#f08a24", glyph: <><circle cx="32" cy="32" r="17" {...stroke} /><path d="M15 32h34M32 15c-8 9-8 25 0 34M32 15c8 9 8 25 0 34" {...stroke} strokeWidth="3" /></> },
+  "game-development": { color: "#e0467c", glyph: <><rect x="12" y="22" width="40" height="22" rx="11" {...stroke} /><path d="M24 28v10M19 33h10" {...stroke} strokeWidth="3.5" /><circle cx="41" cy="31" r="1.8" fill="#fff" /><circle cx="46" cy="36" r="1.8" fill="#fff" /></> },
+  "backend-development": { color: "#5f6672", glyph: <><rect x="14" y="14" width="36" height="14" rx="4" {...stroke} /><rect x="14" y="36" width="36" height="14" rx="4" {...stroke} /><path d="M22 21h.01M22 43h.01" {...stroke} /></> },
+  "artificial-intelligence": { color: "#1fa5a5", glyph: <path d="M32 12l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" {...stroke} strokeWidth="3.5" /> },
+  other: { color: "#6e5bf0", glyph: <path d="M26 22L16 32l10 10M38 22l10 10-10 10" {...stroke} strokeWidth="4.5" /> },
+};
+
+/** A project: a coloured tile whose colour and glyph follow its category (iOS, Android, web, game, ...). */
+export function ProjectIcon({ className, category }: IconProps & { category?: string }) {
+  const look = (category && projectLook[category]) || projectLook.other;
   return (
     <svg viewBox="0 0 64 64" aria-hidden className={className}>
-      <rect x="4" y="4" width="56" height="56" rx="14" fill="#6e5bf0" />
+      <rect x="4" y="4" width="56" height="56" rx="14" fill={look.color} />
       <rect x="4" y="4" width="56" height="28" rx="14" fill="#fff" fillOpacity=".12" />
-      <path
-        d="M26 22L16 32l10 10M38 22l10 10-10 10"
-        fill="none"
-        stroke="#fff"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      {look.glyph}
     </svg>
   );
 }
@@ -110,7 +119,7 @@ export function FileTypeIcon({ file, className }: { file: VirtualFile; className
     case "folder":
       return file.kind === "Volume" ? <VolumeIcon className={className} /> : <FolderIcon className={className} />;
     case "project":
-      return <ProjectIcon className={className} />;
+      return <ProjectIcon className={className} category={file.projectId ? getProjectById(file.projectId)?.categories[0] : undefined} />;
     case "image":
       return <ImageIcon className={className} />;
     case "application":

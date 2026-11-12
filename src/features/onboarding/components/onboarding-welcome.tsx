@@ -71,6 +71,7 @@ export function OnboardingWelcome() {
         <div id="onboarding-welcome-body" className="mt-3 space-y-2.5 text-[14px] leading-6 text-black/70">
           <p>This isn’t a traditional portfolio.</p>
           <p>Explore my projects, learn about my experience, and discover the software I’ve built through an interactive desktop.</p>
+          <p className="text-black/60">My projects are in the <strong className="font-medium text-black/75">Projects</strong> folder. Launchpad has the other apps, and Spotlight (the magnifying glass at the top) finds anything quickly.</p>
         </div>
         <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse sm:justify-start">
           <button

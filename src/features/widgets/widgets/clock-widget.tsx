@@ -27,15 +27,15 @@ export function ClockWidget({ size }: WidgetProps) {
     return (
       <div className="flex size-full flex-col items-center justify-center text-center">
         <span className="text-[11px] font-semibold tracking-wide text-(--accent) uppercase">{weekday}</span>
-        <time className="text-[34px] leading-tight font-light tabular-nums text-black/90">{time}</time>
+        <time className="text-[30px] leading-tight font-light tabular-nums text-black/90">{time}</time>
       </div>
     );
   }
   if (size === "medium") {
     return (
-      <div className="flex size-full flex-col justify-center px-5">
+      <div className="flex size-full flex-col justify-center px-4">
         <span className="text-[12px] font-semibold tracking-wide text-(--accent) uppercase">{weekday}</span>
-        <time className="text-[52px] leading-none font-light tabular-nums text-black/90">{time}</time>
+        <time className="text-[44px] leading-none font-light tabular-nums text-black/90">{time}</time>
         <span className="mt-1 text-[14px] text-black/60">{date}</span>
       </div>
     );

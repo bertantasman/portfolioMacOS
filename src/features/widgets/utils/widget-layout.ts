@@ -1,7 +1,7 @@
 import type { WidgetInstance, WidgetSize } from "../types/widgets";
 
-/** One grid cell is a small widget (160px) plus the gap to the next one. */
-export const WIDGET_CELL = 170;
+/** One grid cell is a small widget (134px) plus the gap to the next one. */
+export const WIDGET_CELL = 144;
 export const WIDGET_GAP = 10;
 
 export const sizeSpan: Record<WidgetSize, { cols: number; rows: number }> = {

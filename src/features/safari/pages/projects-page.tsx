@@ -44,7 +44,7 @@ export function ProjectsPage() {
                 aria-label={`Open project ${p.title}`}
                 className="flex size-full items-start gap-3 rounded-xl border border-black/10 bg-surface-2 p-4 text-left outline-none hover:bg-black/[0.04] focus-visible:ring-2 focus-visible:ring-(--accent)"
               >
-                <ProjectIcon className="size-9 shrink-0" />
+                <ProjectIcon className="size-9 shrink-0" category={p.categories[0]} />
                 <span className="min-w-0">
                   <span className="block truncate text-[14px] font-semibold text-black/90">{p.title}</span>
                   <span className="block text-[11px] text-black/45">{p.categories.map(categoryName).join(", ")}</span>

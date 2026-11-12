@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { applications, getDockSections, launchpadApplications } from "@/config/applications";
 import { DESKTOP_PROJECTS_ID, FOLDER, portfolioFileSystem as fs } from "@/data/portfolio-file-system";
+import { getDesktopItems } from "@/features/desktop-icons/lib/layout";
 import { getSearchIndex } from "@/features/spotlight/utils/build-search-index";
 import { onboardingSteps } from "@/features/onboarding/data/onboarding-steps";
 import { getRegistry } from "@/lib/projects/registry";
@@ -9,10 +10,21 @@ import { validateFileSystem } from "@/lib/virtual-fs/validate";
 
 const dock = getDockSections().flat();
 
-test("the Dock is short: 5 to 7 pinned apps, in two groups", () => {
-  assert.ok(dock.length >= 5 && dock.length <= 7, `${dock.length} Dock apps`);
-  assert.deepEqual(dock.map((a) => a.id), ["finder", "launchpad", "safari", "terminal", "notes", "mail"]);
+test("the Dock is short: 7 pinned items, in two groups", () => {
+  assert.equal(dock.length, 7);
+  assert.deepEqual(dock.map((a) => a.id), ["finder", "launchpad", "safari", "terminal", "projects", "about-me", "contact"]);
   assert.equal(getDockSections().length, 2);
+});
+
+test("the Dock shortcuts lead to real destinations", async () => {
+  const { notes } = await import("@/data/notes");
+  for (const app of dock.filter((a) => a.shortcut)) {
+    const s = app.shortcut!;
+    if (s.kind === "folder") assert.equal(fs.getFile(s.folderId)?.type, "folder");
+    if (s.kind === "note") assert.ok(notes.some((n) => n.id === s.noteId));
+    assert.equal(app.launchable, false); // shortcuts are not apps: no duplicate in Launchpad or Spotlight
+  }
+  assert.equal(dock.filter((a) => a.shortcut).length, 3);
 });
 
 test("apps removed from the Dock stay reachable in Launchpad and Spotlight", () => {
@@ -26,13 +38,16 @@ test("apps removed from the Dock stay reachable in Launchpad and Spotlight", () 
   // Mission Control (an overlay) is still searchable even though it is no longer pinned.
   assert.ok(index.some((i) => i.id === "app:mission-control"));
   // Every pinned app is also launchable.
-  assert.ok(dock.every((a) => a.launchable));
+  assert.ok(dock.filter((a) => !a.shortcut).every((a) => a.launchable));
+});
+
+test("the rendered desktop icons are exactly Projects and Resume.pdf (no volume, no project shortcuts)", () => {
+  assert.deepEqual(getDesktopItems(null).map((i) => i.name), ["Projects", "Resume.pdf"]);
 });
 
 test("the Desktop holds one Projects folder and no individual projects", () => {
   const items = fs.getChildren(FOLDER.desktop);
-  assert.deepEqual(items.map((i) => i.name).sort(), ["About Me", "Contact", "Projects", "Resume.pdf"].filter((n) => items.some((i) => i.name === n)).sort());
-  assert.ok(items.length <= 5);
+  assert.deepEqual(items.map((i) => i.name).sort(), ["Projects", "Resume.pdf"]);
   assert.equal(items.filter((i) => i.type === "project").length, 0);
   const projects = fs.getFile(DESKTOP_PROJECTS_ID);
   assert.equal(projects?.type, "folder");

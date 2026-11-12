@@ -4,6 +4,7 @@ import { Fragment, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { getDockSections } from "@/config/applications";
 import { dockIconSize } from "@/config/appearance";
+import { launchShortcut } from "@/lib/navigation";
 import { useOverlayStore } from "@/store/overlay-store";
 import { useSettingsStore } from "@/store/settings-store";
 import { useDockMagnification } from "@/hooks/use-dock-magnification";
@@ -36,6 +37,12 @@ export function Dock({ running: runningOverride, onLaunch }: DockProps) {
       const overlays = useOverlayStore.getState();
       // Overlays toggle (a second click closes them); launching an app dismisses Launchpad.
       if (app.overlay) return overlays.toggle(app.overlay);
+      if (app.shortcut) {
+        overlays.close("launchpad");
+        overlays.close("mission-control");
+        launchShortcut(app);
+        return;
+      }
       overlays.close("launchpad");
       overlays.close("mission-control");
       launchApplication(app.id);

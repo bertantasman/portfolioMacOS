@@ -103,7 +103,13 @@ export const useDesktopStore = create<DesktopStore>()(
     }),
     {
       name: DESKTOP_STORAGE_KEY,
-      version: 1,
+      // v2: the Desktop was cleaned up (one Projects folder, the résumé, two notes). Saved icon positions from the
+      // older, crowded desktop are dropped so nothing lands in a stale cell; icon size, spacing and sort are kept.
+      version: 2,
+      migrate: (persisted, version) => {
+        const kept = sanitizeDesktop(persisted);
+        return version < 2 ? { ...kept, positions: {} } : kept;
+      },
       storage: createJSONStorage(() => safeStorage),
       skipHydration: true,
       partialize: (s): DesktopPreferences => ({

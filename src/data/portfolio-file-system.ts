@@ -103,10 +103,8 @@ function buildFiles(): VirtualFile[] {
   ...resumeFiles(),
 
   // The Desktop keeps a short, intentional set: one Projects folder (an alias of Documents › Projects, so there is a
-  // single project listing), the résumé above, and two profile notes. Individual projects live inside Projects.
+  // single project listing), the résumé above. Individual projects live inside Projects.
   { id: DESKTOP_PROJECTS_ID, name: "Projects", type: "folder", parentId: FOLDER.desktop, aliasOf: FOLDER.projects, description: "Explore my applications, games, and development work." },
-  { id: "desktop:about-me", name: "About Me", type: "document", parentId: FOLDER.desktop, extension: "md", noteId: "about-me", description: "Who I am and what I build." },
-  { id: "desktop:contact", name: "Contact", type: "document", parentId: FOLDER.desktop, extension: "md", noteId: "contact-information", description: "How to get in touch." },
 
   // One folder per category that has projects in it, plus Featured when any project is featured.
   ...usedCategories.map((c) => folder(c.id, c.name, FOLDER.projects)),

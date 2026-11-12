@@ -23,7 +23,7 @@ interface DragState {
 }
 
 /**
- * The icons on the desktop: the startup volume and whatever is in the Desktop folder. They are
+ * The icons on the desktop: whatever is in the Desktop folder (the Projects folder and the résumé). They are
  * placed on a grid that starts at the top right, like macOS, and can be dragged, sorted and cleaned up.
  */
 export function DesktopIcons() {

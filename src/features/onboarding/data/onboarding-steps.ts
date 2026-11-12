@@ -10,7 +10,7 @@ export const onboardingSteps: readonly OnboardingStep[] = [
   {
     id: "dock",
     title: "Everything Starts Here",
-    description: "Open apps from the Dock: Finder, Safari, Terminal, Notes and Mail. Launchpad has everything else.",
+    description: "Open Finder, Safari or Terminal from the Dock, or jump to Projects, About Me and Contact. Launchpad has every other app.",
     targetId: "onboarding-dock",
     placement: "top",
   },
