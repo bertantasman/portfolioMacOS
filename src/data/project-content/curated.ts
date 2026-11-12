@@ -876,13 +876,14 @@ export const curatedContent: readonly ProjectContent[] = [
     tagline:
       "ReadPoint is a speed-reading iOS app published on the App Store. It shows text one word at a time at a fixed focus point and highlights the centre letter of every word in red.",
     overview:
-      "ReadPoint helps people read faster and stay focused. Instead of moving their eyes across a line, the reader watches one word at a time in the same place, with the centre letter of each word in red, which reduces eye movement.\n\nThe App Store listing describes a minimal interface that avoids distraction, a design aimed at increasing reading speed, and support for Turkish content. The project's own documentation also describes importing PDF and EPUB books, adjustable reading speed, chapter progress and three themes; the exact feature set of the published version was not compared with it.",
+      "ReadPoint helps people read faster and stay focused. Instead of moving their eyes across a line, the reader watches one word at a time in the same place, with the centre letter of each word in red, which reduces eye movement.\n\nThe App Store listing describes a minimal interface that avoids distraction, a design aimed at increasing reading speed, and support for Turkish content. Screenshots from the developer's own build also show importing PDF and EPUB books, a reading speed in words per minute, two focus-letter modes, five reading themes, punctuation-aware timing and a summary after each session. Whether every one of them is in the published version was not compared.",
     features: [
       { id: "focus", title: "Focus letter", description: "The centre letter of each word is highlighted in red.", icon: "zap" },
       { id: "minimal", title: "Minimal interface", description: "A calm layout that does not distract from reading.", icon: "layout" },
-      { id: "speed", title: "Reading speed", description: "The pace is adjustable in words per minute (documented in the project).", icon: "settings" },
-      { id: "books", title: "PDF and EPUB books", description: "Books can be imported and read word by word, with chapter progress for EPUB (documented in the project).", icon: "check" },
-      { id: "themes", title: "Light, Dark and Sepia themes", description: "Three reading themes (documented in the project).", icon: "layout" },
+      { id: "speed", title: "Reading speed", description: "The pace is adjustable from 150 to 900 words per minute, with extra time after commas and full stops.", icon: "settings" },
+      { id: "books", title: "PDF and EPUB books", description: "Books can be imported and are read word by word, with progress saved for each book.", icon: "check" },
+      { id: "themes", title: "Five reading themes", description: "Light, Dark, Sepia, Night and Paper.", icon: "layout" },
+      { id: "summary", title: "Reading summary", description: "After a session: words read, time spent, average speed and completion.", icon: "layout" },
       { id: "turkish", title: "Turkish content", description: "The listing states support for Turkish text.", icon: "globe" },
     ],
     technologies: [
@@ -901,6 +902,8 @@ export const curatedContent: readonly ProjectContent[] = [
     ],
     links: { appStore: "https://apps.apple.com/tr/app/readpoint/id6758308888" },
     developmentStatus: "published",
+    // The library, with a book in progress, is the cover.
+    coverMediaId: "readpoint-05",
     caseStudy: {
       summary: [
         { label: "Role", value: "Developer" },
